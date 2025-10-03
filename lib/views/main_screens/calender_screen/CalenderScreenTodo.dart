@@ -85,7 +85,7 @@ class _CalenderScreenState extends State<CalenderScreen> {
                                       style: TextStyle(
                                         color: AppColors.primary,
                                         fontWeight: FontWeight.bold,
-                                        fontSize: 16.sp,
+                                        fontSize: 18.sp,
                                       ),
                                     ),
                                   ),
@@ -122,12 +122,12 @@ class _CalenderScreenState extends State<CalenderScreen> {
                                       leftChevronIcon: Icon(
                                         Icons.arrow_left,
                                         color: AppColors.primary,
-                                        size: 18.sp,
+                                        size: 20.sp,
                                       ),
                                       rightChevronIcon: Icon(
                                         Icons.arrow_right,
                                         color: AppColors.primary,
-                                        size: 18.sp,
+                                        size: 20.sp,
                                       ),
                                     ),
                                     calendarStyle: CalendarStyle(

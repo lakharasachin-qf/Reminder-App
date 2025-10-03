@@ -123,7 +123,7 @@ class _SettingsPageState extends State<SettingsPage> {
     return SwitchListTile(
       title: Text(
         title,
-        style: Theme.of(context).textTheme.bodyLarge?.copyWith(fontSize: 16.sp),
+        style: Theme.of(context).textTheme.bodyLarge?.copyWith(fontSize: 17.sp),
       ),
       secondary: Icon(icon, color: AppColors.primary, size: 20.sp),
       value: value,
@@ -137,7 +137,7 @@ class _SettingsPageState extends State<SettingsPage> {
       leading: Icon(icon, color: AppColors.primary, size: 20.sp),
       title: Text(
         title,
-        style: Theme.of(context).textTheme.bodyLarge?.copyWith(fontSize: 16.sp),
+        style: Theme.of(context).textTheme.bodyLarge?.copyWith(fontSize: 17.sp),
       ),
       trailing: Icon(Icons.chevron_right, color: Colors.grey, size: 20.sp),
       onTap: onTap,
