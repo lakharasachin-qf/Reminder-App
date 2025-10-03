@@ -1,4 +1,4 @@
-package com.example.demo_health
+package com.app.smartreminder
 
 import io.flutter.embedding.android.FlutterActivity
 

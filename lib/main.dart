@@ -1,11 +1,11 @@
-import 'package:demo_health/views/main_screens/reminder_screen/AddEditReminderScreen.dart';
-import 'package:demo_health/views/main_screens/HomeScreen.dart';
-import 'package:demo_health/views/splash_screen/SplashScreen.dart';
-import 'package:demo_health/Theme/AppTheme.dart';
-import 'package:demo_health/Theme/ThemeProvider.dart';
-import 'package:demo_health/provider/reminderPRO.dart';
-import 'package:demo_health/provider/settingsProvider.dart';
-import 'package:demo_health/provider/toDoPro.dart';
+import 'package:smart_reminder/views/main_screens/reminder_screen/AddEditReminderScreen.dart';
+import 'package:smart_reminder/views/main_screens/HomeScreen.dart';
+import 'package:smart_reminder/views/splash_screen/SplashScreen.dart';
+import 'package:smart_reminder/Theme/AppTheme.dart';
+import 'package:smart_reminder/Theme/ThemeProvider.dart';
+import 'package:smart_reminder/provider/reminderPRO.dart';
+import 'package:smart_reminder/provider/settingsProvider.dart';
+import 'package:smart_reminder/provider/toDoPro.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart'; // <-- import Sizer

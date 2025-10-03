@@ -1,4 +1,4 @@
-import 'package:demo_health/Services/SettingsPrefs.dart';
+import 'package:smart_reminder/Services/SettingsPrefs.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../Services/SharedPrefServices.dart';

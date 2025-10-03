@@ -1,5 +1,5 @@
-import 'package:demo_health/Services/SharedPrefServices.dart';
-import 'package:demo_health/notiServices/noti_Services.dart';
+import 'package:smart_reminder/Services/SharedPrefServices.dart';
+import 'package:smart_reminder/notiServices/noti_Services.dart';
 import 'package:flutter/material.dart';
 import '../Models/reminders.dart';
 

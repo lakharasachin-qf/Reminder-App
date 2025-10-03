@@ -1,9 +1,9 @@
 import 'dart:math';
-import 'package:demo_health/Models/reminders.dart';
-import 'package:demo_health/Services/SharedPrefServices.dart';
-import 'package:demo_health/Theme/AppTheme.dart';
-import 'package:demo_health/notiServices/noti_Services.dart';
-import 'package:demo_health/provider/reminderPRO.dart';
+import 'package:smart_reminder/Models/reminders.dart';
+import 'package:smart_reminder/Services/SharedPrefServices.dart';
+import 'package:smart_reminder/Theme/AppTheme.dart';
+import 'package:smart_reminder/notiServices/noti_Services.dart';
+import 'package:smart_reminder/provider/reminderPRO.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart';

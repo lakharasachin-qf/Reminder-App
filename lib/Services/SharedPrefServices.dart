@@ -1,5 +1,5 @@
 import 'dart:convert';
-import 'package:demo_health/Models/reminders.dart';
+import 'package:smart_reminder/Models/reminders.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class Sharedprefservices {

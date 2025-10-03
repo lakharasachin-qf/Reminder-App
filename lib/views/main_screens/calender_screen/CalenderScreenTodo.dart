@@ -1,6 +1,6 @@
-import 'package:demo_health/views/main_screens/calender_screen/todoScreen.dart';
-import 'package:demo_health/Theme/AppTheme.dart';
-import 'package:demo_health/provider/toDoPro.dart';
+import 'package:smart_reminder/views/main_screens/calender_screen/todoScreen.dart';
+import 'package:smart_reminder/Theme/AppTheme.dart';
+import 'package:smart_reminder/provider/toDoPro.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart';
@@ -81,7 +81,7 @@ class _CalenderScreenState extends State<CalenderScreen> {
                                       left: 4.w,
                                     ),
                                     child: Text(
-                                      "Health Task Calender",
+                                      "Task Calender",
                                       style: TextStyle(
                                         color: AppColors.primary,
                                         fontWeight: FontWeight.bold,

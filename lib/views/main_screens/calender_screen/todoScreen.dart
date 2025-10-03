@@ -1,8 +1,8 @@
-import 'package:demo_health/Models/todoModel.dart';
-import 'package:demo_health/Services/todoPrefs.dart';
-import 'package:demo_health/Theme/AppTheme.dart';
-import 'package:demo_health/provider/toDoPro.dart';
-import 'package:demo_health/utils/snackBar.dart';
+import 'package:smart_reminder/Models/todoModel.dart';
+import 'package:smart_reminder/Services/todoPrefs.dart';
+import 'package:smart_reminder/Theme/AppTheme.dart';
+import 'package:smart_reminder/provider/toDoPro.dart';
+import 'package:smart_reminder/utils/snackBar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:provider/provider.dart';
@@ -257,7 +257,7 @@ class _ToDoListState extends State<ToDoList> {
                                 focusNode: _focusNode,
                                 controller: _taskController,
                                 decoration: InputDecoration(
-                                  hintText: 'Add a new health task...',
+                                  hintText: 'Add a new task...',
                                   hintStyle: TextStyle(fontSize: 15.sp),
                                 ),
                                 onFieldSubmitted: (_) {

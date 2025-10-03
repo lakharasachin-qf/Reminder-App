@@ -7,7 +7,7 @@
     <uses-permission
         android:name="android.permission.ACCESS_NOTIFICATION_POLICY" />
     <uses-permission android:name="android.permission.SCHEDULE_EXACT_ALARM" />
-    <application android:label="Smart Health Reminder"
+    <application android:label="Smart Reminder"
         android:name="${applicationName}" android:icon="@mipmap/ic_logo">
         <!-- Firebase Messaging Icon -->
         <meta-data

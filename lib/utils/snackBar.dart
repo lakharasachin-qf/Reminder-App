@@ -1,4 +1,4 @@
-import 'package:demo_health/Theme/AppTheme.dart';
+import 'package:smart_reminder/Theme/AppTheme.dart';
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -18,7 +18,7 @@ class MySnackbar {
 
 void launchPlaystore({required context}) async {
   final Uri playStoreUrl = Uri.parse(
-    'https://play.google.com/store/apps/details?id=com.example.demo_health',
+    'https://play.google.com/store/apps/details?id=com.app.smartreminder',
   );
 
   final Uri uri = playStoreUrl;

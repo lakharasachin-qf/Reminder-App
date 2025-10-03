@@ -1,4 +1,4 @@
-import 'package:demo_health/Theme/AppTheme.dart';
+import 'package:smart_reminder/Theme/AppTheme.dart';
 import 'package:flutter/material.dart';
 
 class SplashScreen extends StatefulWidget {
@@ -75,7 +75,7 @@ class _SplashScreenState extends State<SplashScreen>
                     ],
                   ),
                   child: Icon(
-                    Icons.favorite, // Minimal, health-related icon
+                    Icons.punch_clock_rounded, // Minimal, health-related icon
                     size: 60,
                     color: AppColors.primary,
                   ),
@@ -83,7 +83,7 @@ class _SplashScreenState extends State<SplashScreen>
               ),
               const SizedBox(height: 32),
               Text(
-                'Smart Health',
+                'Smart',
                 style: textTheme.displayMedium?.copyWith(
                   color: AppColors.primaryDark,
                   fontWeight: FontWeight.bold,

@@ -1,9 +1,9 @@
-import 'package:demo_health/notiServices/noti_Services.dart';
-import 'package:demo_health/views/main_screens/calender_screen/CalenderScreenTodo.dart';
-import 'package:demo_health/views/main_screens/reminder_screen/RemindersList.dart';
-import 'package:demo_health/views/main_screens/settings_screen/SettingsPage.dart';
-import 'package:demo_health/Services/SharedPrefServices.dart';
-import 'package:demo_health/Theme/AppTheme.dart';
+import 'package:smart_reminder/notiServices/noti_Services.dart';
+import 'package:smart_reminder/views/main_screens/calender_screen/CalenderScreenTodo.dart';
+import 'package:smart_reminder/views/main_screens/reminder_screen/RemindersList.dart';
+import 'package:smart_reminder/views/main_screens/settings_screen/SettingsPage.dart';
+import 'package:smart_reminder/Services/SharedPrefServices.dart';
+import 'package:smart_reminder/Theme/AppTheme.dart';
 import 'package:flutter/material.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
 
@@ -43,9 +43,7 @@ class _HomeScreenState extends State<HomeScreen> {
     ];
     return Scaffold(
       appBar: AppBar(
-        title: Text(
-          ['My Health Hub', 'Health Tasks', 'Settings'][_selectedIndex],
-        ),
+        title: Text(['My Hub', 'Tasks', 'Settings'][_selectedIndex]),
         automaticallyImplyLeading: false,
         flexibleSpace: Container(
           decoration: BoxDecoration(
