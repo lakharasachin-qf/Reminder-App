@@ -477,7 +477,7 @@ class _AddEditReminderScreenState extends State<AddEditReminderScreen> {
           icon: Icon(Icons.check_circle, color: AppColors.success, size: 12.w),
           title: Text(
             widget.isEdit ? 'Reminder Edited' : 'Reminder Saved!',
-            style: TextStyle(fontSize: 16.sp),
+            style: TextStyle(fontSize: 18.sp),
           ),
           content: Text(
             'Your reminder "${_titleController.text}" is now set.',

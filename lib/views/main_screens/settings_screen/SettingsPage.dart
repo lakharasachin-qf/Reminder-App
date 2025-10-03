@@ -5,10 +5,12 @@ import 'package:demo_health/provider/toDoPro.dart';
 import 'package:demo_health/utils/snackBar.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:sizer/sizer.dart';
 import '../../../provider/reminderPRO.dart';
 
 class SettingsPage extends StatefulWidget {
   const SettingsPage({super.key});
+
   @override
   State<SettingsPage> createState() => _SettingsPageState();
 }
@@ -24,128 +26,87 @@ class _SettingsPageState extends State<SettingsPage> {
 
   @override
   Widget build(BuildContext context) {
-    final settingsProvider = Provider.of<SettingsProvider>(context);
-    final themeProvider = Provider.of<ThemeProvider>(context);
-    return Padding(
-      padding: const EdgeInsets.only(top: 7, left: 10, right: 10),
-      child: SingleChildScrollView(
-        child: Column(
-          children: [
-            _buildSettingsCard('Preferences', [
-              // _buildSwitchTile(
-              //   'Enable Notifications',
-              //   Icons.notifications,
-              //   settingsProvider.settingsPrefs.isNotiON,
-              //   // (value) => settingsProvider.toggleNotifications(value),
-              //   (value) {
-              //     print("the button");
-              //     if (!value) {
-              //       showDialog(
-              //         context: context,
-              //         builder: (context) {
-              //           return _showDialog(
-              //             title: "Warning",
-              //             text: "All the app notifications will be canceled",
-              //             function: (value) {
-              //               print("object");
-              //               settingsProvider.toggleNotifications(
-              //                 value,
-              //                 context,
-              //               );
-              //               settingsProvider.settingsPrefs
-              //                   .saveNotificationUpdate();
-              //               Navigator.pop(context);
-              //               // setState(() {});
-              //             },
-              //             context: context,
-              //             yesB: "Agree",
-              //             noB: "Disagree",
-              //             value: value,
-              //           );
-              //         },
-              //       );
-              //     } else {
-              //       settingsProvider.toggleNotifications(value, context);
-              //       settingsProvider.settingsPrefs.saveNotificationUpdate();
-              //     }
-              //   },
-              // ),
-              _buildSwitchTile(
-                'Dark Mode',
-                Icons.dark_mode,
-                themeProvider.isDarkMode,
-                (value) => themeProvider.toggleTheme(value),
-              ),
-            ]),
-            // const SizedBox(height: 16),
-            _buildSettingsCard('Support & Information', [
-              _buildActionTile('Rate Us on App Store', Icons.star, () {
-                launchPlaystore(context: context);
-                MySnackbar().showSnackBar(
-                  'Taking you to the App Store!',
-                  context,
-                );
-              }),
-              _buildActionTile('Contact Support', Icons.support_agent, () {
-                launchPlaystore(context: context);
-                MySnackbar().showSnackBar('Opening email client...', context);
-              }),
-              _buildInfoTile('App Version', '1.0.0', Icons.info),
-            ]),
-
-            _buildSettingsCard("Cleat Data", [
-              _buildActionTile("Clear all app data", Icons.delete, () {
-                showDialog(
-                  context: context,
-                  builder: (context) {
-                    return _showDialog(
-                      title: "Clear Data?",
-                      text:
-                          "All the in app data will disappear when you hit yes",
-                      function: (value) {
-                        settingsProvider.clearAllAppData();
-                        Navigator.pop(context);
-                      },
-                      context: context,
-                      yesB: "yes",
-                      noB: "no",
+    return Sizer(
+      builder: (context, orientation, deviceType) {
+        final settingsProvider = Provider.of<SettingsProvider>(context);
+        final themeProvider = Provider.of<ThemeProvider>(context);
+        return Padding(
+          padding: EdgeInsets.only(top: 1.h, left: 2.w, right: 2.w),
+          child: SingleChildScrollView(
+            child: Column(
+              children: [
+                _buildSettingsCard('Preferences', [
+                  _buildSwitchTile(
+                    'Dark Mode',
+                    Icons.dark_mode,
+                    themeProvider.isDarkMode,
+                    (value) => themeProvider.toggleTheme(value),
+                  ),
+                ]),
+                _buildSettingsCard('Support & Information', [
+                  _buildActionTile('Rate Us on App Store', Icons.star, () {
+                    launchPlaystore(context: context);
+                    MySnackbar().showSnackBar(
+                      'Taking you to the App Store!',
+                      context,
                     );
-                    //return _showDialog(title, text, function, context, yesB, noB)
-                  },
-                );
-              }),
-            ]),
-            // const SizedBox(height: 24),
-            // const AboutListTile(
-            //   icon: Icon(Icons.favorite, color: AppColors.primary),
-            //   applicationName: 'Smart Health Reminder',
-            //   applicationVersion: '1.0.0',
-            //   applicationLegalese: '© 2025 Health App Team',
-            //   aboutBoxChildren: [Text('Your health, our priority.')],
-            // ),
-          ],
-        ),
-      ),
+                  }),
+                  _buildActionTile('Contact Support', Icons.support_agent, () {
+                    launchPlaystore(context: context);
+                    MySnackbar().showSnackBar(
+                      'Opening email client...',
+                      context,
+                    );
+                  }),
+                  _buildInfoTile('App Version', '1.0.0', Icons.info),
+                ]),
+                _buildSettingsCard("Clear Data", [
+                  _buildActionTile("Clear all app data", Icons.delete, () {
+                    showDialog(
+                      context: context,
+                      builder: (context) {
+                        return _showDialog(
+                          title: "Clear Data?",
+                          text:
+                              "All app data will be deleted if you press Yes.",
+                          function: (value) {
+                            settingsProvider.clearAllAppData();
+                            Navigator.pop(context);
+                          },
+                          context: context,
+                          yesB: "yes",
+                          noB: "no",
+                        );
+                      },
+                    );
+                  }),
+                ]),
+              ],
+            ),
+          ),
+        );
+      },
     );
   }
 
   Widget _buildSettingsCard(String title, List<Widget> children) {
     return Card(
       child: Padding(
-        padding: const EdgeInsets.symmetric(vertical: 16),
+        padding: EdgeInsets.symmetric(vertical: 2.h),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16.0),
+              padding: EdgeInsets.symmetric(horizontal: 4.w),
               child: Text(
                 title,
-                style: Theme.of(
-                  context,
-                ).textTheme.titleLarge?.copyWith(color: AppColors.primaryDark),
+                style: Theme.of(context).textTheme.titleLarge?.copyWith(
+                  color: AppColors.primaryDark,
+                  fontSize: 16.sp,
+                ),
               ),
             ),
-            const SizedBox(height: 8),
+            SizedBox(height: 1.h),
             ...children,
           ],
         ),
@@ -160,8 +121,11 @@ class _SettingsPageState extends State<SettingsPage> {
     Function(bool) onChanged,
   ) {
     return SwitchListTile(
-      title: Text(title, style: Theme.of(context).textTheme.bodyLarge),
-      secondary: Icon(icon, color: AppColors.primary),
+      title: Text(
+        title,
+        style: Theme.of(context).textTheme.bodyLarge?.copyWith(fontSize: 16.sp),
+      ),
+      secondary: Icon(icon, color: AppColors.primary, size: 20.sp),
       value: value,
       onChanged: onChanged,
       activeColor: AppColors.primary,
@@ -170,37 +134,31 @@ class _SettingsPageState extends State<SettingsPage> {
 
   Widget _buildActionTile(String title, IconData icon, VoidCallback onTap) {
     return ListTile(
-      leading: Icon(icon, color: AppColors.primary),
-      title: Text(title, style: Theme.of(context).textTheme.bodyLarge),
-      trailing: const Icon(Icons.chevron_right, color: Colors.grey),
+      leading: Icon(icon, color: AppColors.primary, size: 20.sp),
+      title: Text(
+        title,
+        style: Theme.of(context).textTheme.bodyLarge?.copyWith(fontSize: 16.sp),
+      ),
+      trailing: Icon(Icons.chevron_right, color: Colors.grey, size: 20.sp),
       onTap: onTap,
     );
   }
 
   Widget _buildInfoTile(String title, String value, IconData icon) {
     return ListTile(
-      leading: Icon(icon, color: AppColors.primary),
-      title: Text(title, style: Theme.of(context).textTheme.bodyLarge),
+      leading: Icon(icon, color: AppColors.primary, size: 18.sp),
+      title: Text(
+        title,
+        style: Theme.of(context).textTheme.bodyLarge?.copyWith(fontSize: 16.sp),
+      ),
       trailing: Text(
         value,
         style: Theme.of(
           context,
-        ).textTheme.bodyMedium?.copyWith(color: Colors.grey),
+        ).textTheme.bodyMedium?.copyWith(color: Colors.grey, fontSize: 16.sp),
       ),
     );
   }
-
-  // void _showSnackBar(String message) {
-  //   ScaffoldMessenger.of(context).showSnackBar(
-  //     SnackBar(
-  //       content: Text(message),
-  //       backgroundColor: AppColors.primary,
-  //       behavior: SnackBarBehavior.floating,
-  //       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-  //       margin: const EdgeInsets.all(16),
-  //     ),
-  //   );
-  // }
 }
 
 Widget _showDialog({
@@ -213,27 +171,26 @@ Widget _showDialog({
   bool? value,
 }) {
   return AlertDialog(
-    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
-    title: Text(title),
-    content: Text(text, style: TextStyle(fontSize: 15)),
+    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(4.w)),
+    title: Text(title, style: TextStyle(fontSize: 16.sp)),
+    content: Text(text, style: TextStyle(fontSize: 16.sp)),
     actions: [
       MaterialButton(
         onPressed: () {
-          print("dialog");
           function(value ?? true);
         },
-        child: Text(yesB),
+        child: Text(yesB, style: TextStyle(fontSize: 16.sp)),
       ),
       MaterialButton(
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(3.w)),
         color: AppColors.primary,
-        height: 35,
-        minWidth: 85,
+        height: 4.h,
+        minWidth: 20.w,
         onPressed: () {
           Navigator.pop(context);
         },
         textColor: AppColors.background,
-        child: Text(noB),
+        child: Text(noB, style: TextStyle(fontSize: 16.sp)),
       ),
     ],
   );
