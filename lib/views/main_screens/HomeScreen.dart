@@ -1,4 +1,3 @@
-import 'package:smart_reminder/notiServices/noti_Services.dart';
 import 'package:smart_reminder/views/main_screens/calender_screen/CalenderScreenTodo.dart';
 import 'package:smart_reminder/views/main_screens/reminder_screen/RemindersList.dart';
 import 'package:smart_reminder/views/main_screens/settings_screen/SettingsPage.dart';
