@@ -47,7 +47,7 @@ class _HomeScreenState extends State<HomeScreen> {
         return Scaffold(
           appBar: AppBar(
             title: Text(
-              ['My Hub', 'Tasks', 'Settings'][_selectedIndex],
+              ['My Reminders', 'Tasks', 'Settings'][_selectedIndex],
               style: TextStyle(fontSize: 16.sp),
             ),
             automaticallyImplyLeading: false,
