@@ -18,7 +18,7 @@ class MySnackbar {
 
 void launchPlaystore({required context}) async {
   final Uri playStoreUrl = Uri.parse(
-    'https://play.google.com/store/apps/details?id=com.119next.smartreminder',
+    'https://play.google.com/store/apps/details?id=com.next119.smartreminder',
   );
 
   final Uri uri = playStoreUrl;
