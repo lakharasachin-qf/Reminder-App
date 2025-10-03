@@ -2,12 +2,11 @@ import 'dart:math';
 import 'package:demo_health/Models/reminders.dart';
 import 'package:demo_health/Services/SharedPrefServices.dart';
 import 'package:demo_health/Theme/AppTheme.dart';
-// import 'package:demo_health/notiServices/noti_Services.dart';
+import 'package:demo_health/notiServices/noti_Services.dart';
 import 'package:demo_health/provider/reminderPRO.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-
-import '../../../notiServices/noti_Services.dart';
+import 'package:sizer/sizer.dart';
 
 class AddEditReminderScreen extends StatefulWidget {
   final HealthReminder? reminder;
@@ -80,160 +79,183 @@ class _AddEditReminderScreenState extends State<AddEditReminderScreen> {
 
   @override
   Widget build(BuildContext context) {
-    // final remindersProvider = Provider.of<ReminderProvider>(context);
-    return GestureDetector(
-      behavior: HitTestBehavior.opaque,
-      onTap: () => unFocus(),
-      child: Scaffold(
-        appBar: AppBar(
-          title: widget.isEdit
-              ? const Text("Edit Reminder")
-              : const Text('New Reminder'),
-          flexibleSpace: Container(
-            decoration: BoxDecoration(
-              gradient: Theme.of(context).brightness == Brightness.dark
-                  ? LinearGradient(
-                      colors: [AppColors.primaryDark, AppColors.primary],
-                    )
-                  : AppColors.primaryGradient,
-            ),
-          ),
-        ),
-        body: Container(
-          decoration: BoxDecoration(
-            gradient: Theme.of(context).brightness == Brightness.dark
-                ? LinearGradient(
-                    colors: [
-                      AppColors.darkBackground,
-                      AppColors.darkBackground.withOpacity(0.2),
-                    ],
-                  )
-                : AppColors.backgroundGradient,
-          ),
-          child: Form(
-            key: _formKey,
-            child: ListView(
-              controller: _scrollController,
-              padding: const EdgeInsets.symmetric(
-                horizontal: 5.0,
-                vertical: 16.0,
+    return Sizer(
+      builder: (context, orientation, deviceType) {
+        return GestureDetector(
+          behavior: HitTestBehavior.opaque,
+          onTap: () => unFocus(),
+          child: Scaffold(
+            appBar: AppBar(
+              title: Text(
+                widget.isEdit ? "Edit Reminder" : "New Reminder",
+                style: TextStyle(fontSize: 16.sp),
               ),
-              children: [
-                _buildCard('Details', [
-                  TextFormField(
-                    controller: _titleController,
-                    focusNode: _focusNode,
-                    decoration: const InputDecoration(
-                      labelText: 'Reminder Title',
-                      prefixIcon: Icon(Icons.title),
-                    ),
-                    validator: (value) => (value == null || value.isEmpty)
-                        ? 'Please enter a title'
-                        : null,
-                  ),
-                  const SizedBox(height: 16),
-                  DropdownButtonFormField<String>(
-                    value: _selectedFrequency,
-                    decoration: const InputDecoration(
-                      labelText: 'Frequency',
-                      prefixIcon: Icon(Icons.repeat),
-                    ),
-                    items: _frequencies
-                        .map((f) => DropdownMenuItem(value: f, child: Text(f)))
-                        .toList(),
-                    onChanged: (value) =>
-                        setState(() => _selectedFrequency = value!),
-                  ),
-                  const SizedBox(height: 16),
-                  ListTile(
-                    leading: const Icon(
-                      Icons.access_time,
-                      color: AppColors.primary,
-                    ),
-                    title: const Text('Select Time'),
-                    subtitle: Text(
-                      _selectedTime.format(context),
-                      style: Theme.of(context).textTheme.bodyLarge,
-                    ),
-                    onTap: _selectTime,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(12),
-                      side: BorderSide(color: Colors.grey.shade300),
-                    ),
-                  ),
-                ]),
-                const SizedBox(height: 16),
-                _buildCard('Icon & Color', [
-                  _buildChoicePicker<IconData>(
-                    title: 'Choose Icon',
-                    choices: _icons,
-                    selectedValue: _selectedIcon,
-                    onSelected: (icon) => setState(() => _selectedIcon = icon),
-                    builder: (icon, isSelected) => Icon(
-                      icon,
-                      color: isSelected ? AppColors.primary : Colors.grey,
-                      size: 28,
-                    ),
-                  ),
-                  const SizedBox(height: 20),
-                  _buildChoicePicker<Color>(
-                    title: 'Choose Color',
-                    choices: _colors,
-                    selectedValue: _selectedColor,
-                    onSelected: (color) =>
-                        setState(() => _selectedColor = color),
-                    builder: (color, isSelected) => Container(
-                      width: 40,
-                      height: 40,
-                      decoration: BoxDecoration(
-                        color: color,
-                        shape: BoxShape.circle,
-                      ),
-                      child: isSelected
-                          ? const Icon(Icons.check, color: Colors.white)
-                          : null,
-                    ),
-                  ),
-                ]),
-                const SizedBox(height: 24),
-                _buildPreviewCard(),
-                const SizedBox(height: 24),
-                Padding(
-                  padding: const EdgeInsets.only(
-                    bottom: 15.0,
-                    left: 20,
-                    right: 20,
-                  ),
-                  child: ElevatedButton.icon(
-                    onPressed: _saveReminder,
-                    icon: const Icon(Icons.save),
-                    label: widget.isEdit
-                        ? const Text("Edit Reminder")
-                        : const Text('Save Reminder'),
-                  ),
+              flexibleSpace: Container(
+                decoration: BoxDecoration(
+                  gradient: Theme.of(context).brightness == Brightness.dark
+                      ? LinearGradient(
+                          colors: [AppColors.primaryDark, AppColors.primary],
+                        )
+                      : AppColors.primaryGradient,
                 ),
-              ],
+              ),
+            ),
+            body: Container(
+              decoration: BoxDecoration(
+                gradient: Theme.of(context).brightness == Brightness.dark
+                    ? LinearGradient(
+                        colors: [
+                          AppColors.darkBackground,
+                          AppColors.darkBackground.withOpacity(0.2),
+                        ],
+                      )
+                    : AppColors.backgroundGradient,
+              ),
+              child: Form(
+                key: _formKey,
+                child: ListView(
+                  controller: _scrollController,
+                  padding: EdgeInsets.symmetric(horizontal: 1.w, vertical: 2.h),
+                  children: [
+                    _buildCard('Details', [
+                      TextFormField(
+                        controller: _titleController,
+                        focusNode: _focusNode,
+                        decoration: InputDecoration(
+                          labelText: 'Reminder Title',
+                          prefixIcon: Icon(Icons.title, size: 18.sp),
+                          labelStyle: TextStyle(fontSize: 15.sp),
+                        ),
+                        validator: (value) => (value == null || value.isEmpty)
+                            ? 'Please enter a title'
+                            : null,
+                      ),
+                      SizedBox(height: 2.h),
+                      DropdownButtonFormField<String>(
+                        value: _selectedFrequency,
+                        decoration: InputDecoration(
+                          labelText: 'Frequency',
+                          prefixIcon: Icon(Icons.repeat, size: 18.sp),
+                          labelStyle: TextStyle(fontSize: 15.sp),
+                        ),
+                        items: _frequencies
+                            .map(
+                              (f) => DropdownMenuItem(
+                                value: f,
+                                child: Text(
+                                  f,
+                                  style: TextStyle(fontSize: 15.sp),
+                                ),
+                              ),
+                            )
+                            .toList(),
+                        onChanged: (value) =>
+                            setState(() => _selectedFrequency = value!),
+                      ),
+                      SizedBox(height: 2.h),
+                      ListTile(
+                        leading: Icon(
+                          Icons.access_time,
+                          color: AppColors.primary,
+                          size: 18.sp,
+                        ),
+                        title: Text(
+                          'Select Time',
+                          style: TextStyle(fontSize: 15.sp),
+                        ),
+                        subtitle: Text(
+                          _selectedTime.format(context),
+                          style: Theme.of(
+                            context,
+                          ).textTheme.bodyLarge?.copyWith(fontSize: 15.sp),
+                        ),
+                        onTap: _selectTime,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(3.w),
+                          side: BorderSide(color: Colors.grey.shade300),
+                        ),
+                      ),
+                    ]),
+                    SizedBox(height: 2.h),
+                    _buildCard('Icon & Color', [
+                      _buildChoicePicker<IconData>(
+                        title: 'Choose Icon',
+                        choices: _icons,
+                        selectedValue: _selectedIcon,
+                        onSelected: (icon) =>
+                            setState(() => _selectedIcon = icon),
+                        builder: (icon, isSelected) => Icon(
+                          icon,
+                          color: isSelected ? AppColors.primary : Colors.grey,
+                          size: 20.sp,
+                        ),
+                      ),
+                      SizedBox(height: 2.h),
+                      _buildChoicePicker<Color>(
+                        title: 'Choose Color',
+                        choices: _colors,
+                        selectedValue: _selectedColor,
+                        onSelected: (color) =>
+                            setState(() => _selectedColor = color),
+                        builder: (color, isSelected) => Container(
+                          width: 10.w,
+                          height: 5.h,
+                          decoration: BoxDecoration(
+                            color: color,
+                            shape: BoxShape.circle,
+                          ),
+                          child: isSelected
+                              ? Icon(
+                                  Icons.check,
+                                  color: Colors.white,
+                                  size: 16.sp,
+                                )
+                              : null,
+                        ),
+                      ),
+                    ]),
+                    SizedBox(height: 3.h),
+                    _buildPreviewCard(),
+                    SizedBox(height: 3.h),
+                    Padding(
+                      padding: EdgeInsets.symmetric(
+                        horizontal: 5.w,
+                        vertical: 2.h,
+                      ),
+                      child: ElevatedButton.icon(
+                        onPressed: _saveReminder,
+                        icon: Icon(Icons.save, size: 18.sp),
+                        label: Text(
+                          widget.isEdit ? "Edit Reminder" : "Save Reminder",
+                          style: TextStyle(fontSize: 14.sp),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
             ),
           ),
-        ),
-      ),
+        );
+      },
     );
   }
 
   Widget _buildCard(String title, List<Widget> children) {
     return Card(
       child: Padding(
-        padding: const EdgeInsets.all(16),
+        padding: EdgeInsets.all(4.w),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
               title,
-              style: Theme.of(
-                context,
-              ).textTheme.titleLarge?.copyWith(color: AppColors.primaryDark),
+              style: Theme.of(context).textTheme.titleLarge?.copyWith(
+                color: AppColors.primaryDark,
+                fontSize: 16.sp,
+              ),
             ),
-            const SizedBox(height: 16),
+            SizedBox(height: 2.h),
             ...children,
           ],
         ),
@@ -251,26 +273,31 @@ class _AddEditReminderScreenState extends State<AddEditReminderScreen> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(title, style: Theme.of(context).textTheme.titleMedium),
-        const SizedBox(height: 12),
+        Text(
+          title,
+          style: Theme.of(
+            context,
+          ).textTheme.titleMedium?.copyWith(fontSize: 15.sp),
+        ),
+        SizedBox(height: 1.5.h),
         Wrap(
-          spacing: 12,
-          runSpacing: 12,
+          spacing: 3.w,
+          runSpacing: 3.w,
           children: choices.map((value) {
             final isSelected = value == selectedValue;
             return GestureDetector(
               onTap: () => onSelected(value),
               child: AnimatedContainer(
                 duration: const Duration(milliseconds: 300),
-                padding: const EdgeInsets.all(8),
+                padding: EdgeInsets.all(2.w),
                 decoration: BoxDecoration(
                   color: isSelected
                       ? AppColors.primary.withOpacity(0.15)
                       : Colors.grey.withOpacity(0.1),
-                  borderRadius: BorderRadius.circular(12),
+                  borderRadius: BorderRadius.circular(3.w),
                   border: Border.all(
                     color: isSelected ? AppColors.primary : Colors.transparent,
-                    width: 2,
+                    width: 0.5.w,
                   ),
                 ),
                 child: builder(value, isSelected),
@@ -288,43 +315,48 @@ class _AddEditReminderScreenState extends State<AddEditReminderScreen> {
       color: Theme.of(context).cardColor.withOpacity(0.8),
       shape: RoundedRectangleBorder(
         side: BorderSide(color: Colors.grey.shade200),
-        borderRadius: BorderRadius.circular(16),
+        borderRadius: BorderRadius.circular(4.w),
       ),
       child: Padding(
-        padding: const EdgeInsets.all(16.0),
+        padding: EdgeInsets.all(4.w),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
               'Preview',
-              style: Theme.of(
-                context,
-              ).textTheme.titleMedium?.copyWith(color: AppColors.primaryDark),
+              style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                color: AppColors.primaryDark,
+                fontSize: 14.sp,
+              ),
             ),
-            const SizedBox(height: 12),
+            SizedBox(height: 1.5.h),
             Row(
               children: [
                 Container(
-                  width: 6,
-                  height: 80,
+                  width: 1.5.w,
+                  height: 10.h,
                   decoration: BoxDecoration(
                     color: _selectedColor,
-                    borderRadius: const BorderRadius.only(
-                      topLeft: Radius.circular(16),
-                      bottomLeft: Radius.circular(16),
+                    borderRadius: BorderRadius.only(
+                      topLeft: Radius.circular(4.w),
+                      bottomLeft: Radius.circular(4.w),
                     ),
                   ),
                 ),
-                const SizedBox(width: 12),
+                SizedBox(width: 3.w),
                 Container(
-                  padding: const EdgeInsets.all(12),
+                  padding: EdgeInsets.all(3.w),
                   decoration: BoxDecoration(
                     color: _selectedColor.withOpacity(0.1),
-                    borderRadius: BorderRadius.circular(16),
+                    borderRadius: BorderRadius.circular(4.w),
                   ),
-                  child: Icon(_selectedIcon, size: 32, color: _selectedColor),
+                  child: Icon(
+                    _selectedIcon,
+                    size: 18.sp,
+                    color: _selectedColor,
+                  ),
                 ),
-                const SizedBox(width: 16),
+                SizedBox(width: 4.w),
                 Expanded(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -334,13 +366,17 @@ class _AddEditReminderScreenState extends State<AddEditReminderScreen> {
                             ? 'Reminder Title'
                             : _titleController.text,
                         style: Theme.of(context).textTheme.titleMedium
-                            ?.copyWith(fontWeight: FontWeight.bold),
+                            ?.copyWith(
+                              fontWeight: FontWeight.bold,
+                              fontSize: 15.sp,
+                            ),
                       ),
-                      const SizedBox(height: 4),
+                      SizedBox(height: 0.5.h),
                       Text(
                         '${_selectedTime.format(context)} • $_selectedFrequency',
                         style: Theme.of(context).textTheme.bodyMedium?.copyWith(
                           color: Colors.grey.shade600,
+                          fontSize: 15.sp,
                         ),
                       ),
                     ],
@@ -369,13 +405,12 @@ class _AddEditReminderScreenState extends State<AddEditReminderScreen> {
     int id;
     final existingIds = reminders.map((r) => r.id).toSet();
     do {
-      id = random.nextInt(0x7FFFFFFF); // 32-bit positive int
+      id = random.nextInt(0x7FFFFFFF);
     } while (existingIds.contains(id));
     return id;
   }
 
   void _saveReminder() async {
-    print("_saveReminder called");
     if (_formKey.currentState!.validate()) {
       if (widget.isEdit && widget.reminder != null) {
         await NotiServices().notificationPlugin.cancel(widget.reminder!.id);
@@ -392,7 +427,6 @@ class _AddEditReminderScreenState extends State<AddEditReminderScreen> {
           context,
           listen: false,
         ).updateReminder(updateReminder);
-        // ignore: unnecessary_null_comparison
         if (_selectedTime != null) {
           await NotiServices().reminderNoti(
             id: updateReminder.id,
@@ -419,8 +453,6 @@ class _AddEditReminderScreenState extends State<AddEditReminderScreen> {
               isActive: true,
             ),
           );
-
-          // ignore: unnecessary_null_comparison
           if (_selectedTime != null) {
             await NotiServices().reminderNoti(
               id: reminderId,
@@ -435,39 +467,22 @@ class _AddEditReminderScreenState extends State<AddEditReminderScreen> {
           print(e.toString());
         }
       }
-
-      // setState(() {
-      //   _sharedprefservices.reminderList.add(
-      //     HealthReminder(
-      //       id: reminderId,
-      //       title: _titleController.text,
-      //       time: _selectedTime,
-      //       frequency: _selectedFrequency,
-      //       icon: _selectedIcon,
-      //       color: _selectedColor,
-      //     ),
-      //   );
-      // });
-
-      // print(reminderId.toString());
-
       _sharedprefservices.saveReminder();
-
       showDialog(
         context: context,
         builder: (context) => AlertDialog(
           shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(16),
+            borderRadius: BorderRadius.circular(4.w),
           ),
-          icon: const Icon(
-            Icons.check_circle,
-            color: AppColors.success,
-            size: 60,
+          icon: Icon(Icons.check_circle, color: AppColors.success, size: 12.w),
+          title: Text(
+            widget.isEdit ? 'Reminder Edited' : 'Reminder Saved!',
+            style: TextStyle(fontSize: 16.sp),
           ),
-          title: widget.isEdit
-              ? const Text('Reminder Edited')
-              : const Text('Reminder Saved!'),
-          content: Text('Your reminder "${_titleController.text}" is now set.'),
+          content: Text(
+            'Your reminder "${_titleController.text}" is now set.',
+            style: TextStyle(fontSize: 16.sp),
+          ),
           actions: [
             TextButton(
               onPressed: () {
@@ -475,7 +490,7 @@ class _AddEditReminderScreenState extends State<AddEditReminderScreen> {
                 Navigator.of(context).pop(true);
                 FocusScope.of(context).unfocus();
               },
-              child: const Text('OK'),
+              child: Text('OK', style: TextStyle(fontSize: 16.sp)),
             ),
           ],
         ),
@@ -484,7 +499,6 @@ class _AddEditReminderScreenState extends State<AddEditReminderScreen> {
       _scrollController.animateTo(
         0,
         duration: const Duration(milliseconds: 300),
-        // curve: Curves.easeInCubic,
         curve: Curves.easeInOut,
       );
       _focusNode.requestFocus();
