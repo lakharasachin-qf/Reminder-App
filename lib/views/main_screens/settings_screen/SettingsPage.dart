@@ -80,12 +80,14 @@ class _SettingsPageState extends State<SettingsPage> {
             // const SizedBox(height: 16),
             _buildSettingsCard('Support & Information', [
               _buildActionTile('Rate Us on App Store', Icons.star, () {
+                launchPlaystore(context: context);
                 MySnackbar().showSnackBar(
                   'Taking you to the App Store!',
                   context,
                 );
               }),
               _buildActionTile('Contact Support', Icons.support_agent, () {
+                launchPlaystore(context: context);
                 MySnackbar().showSnackBar('Opening email client...', context);
               }),
               _buildInfoTile('App Version', '1.0.0', Icons.info),

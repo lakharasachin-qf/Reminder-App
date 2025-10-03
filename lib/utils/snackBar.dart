@@ -1,5 +1,6 @@
 import 'package:demo_health/Theme/AppTheme.dart';
 import 'package:flutter/material.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class MySnackbar {
   void showSnackBar(String message, BuildContext context) {
@@ -15,18 +16,16 @@ class MySnackbar {
   }
 }
 
-Future<void> _launchInBrowser(String url) async {
-  if (await UrlLauncherPlatform.instance.canLaunch(url)) {
-    await UrlLauncherPlatform.instance.launch(
-      url,
-      useSafariVC: false,
-      useWebView: false,
-      enableJavaScript: false,
-      enableDomStorage: false,
-      universalLinksOnly: false,
-      headers: <String, String>{},
-    );
+void launchPlaystore({required context}) async {
+  final Uri playStoreUrl = Uri.parse(
+    'https://play.google.com/store/apps/details?id=com.example.demo_health',
+  );
+
+  final Uri uri = playStoreUrl;
+
+  if (await canLaunchUrl(uri)) {
+    await launchUrl(uri, mode: LaunchMode.externalApplication);
   } else {
-    throw Exception('Could not launch $url');
+    throw 'Could not launch $playStoreUrl';
   }
 }
