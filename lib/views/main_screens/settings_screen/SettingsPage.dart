@@ -32,44 +32,44 @@ class _SettingsPageState extends State<SettingsPage> {
         child: Column(
           children: [
             _buildSettingsCard('Preferences', [
-              _buildSwitchTile(
-                'Enable Notifications',
-                Icons.notifications,
-                settingsProvider.settingsPrefs.isNotiON,
-                // (value) => settingsProvider.toggleNotifications(value),
-                (value) {
-                  print("the button");
-                  if (!value) {
-                    showDialog(
-                      context: context,
-                      builder: (context) {
-                        return _showDialog(
-                          title: "Warning",
-                          text: "All the app notifications will be canceled",
-                          function: (value) {
-                            print("object");
-                            settingsProvider.toggleNotifications(
-                              value,
-                              context,
-                            );
-                            settingsProvider.settingsPrefs
-                                .saveNotificationUpdate();
-                            Navigator.pop(context);
-                            // setState(() {});
-                          },
-                          context: context,
-                          yesB: "Agree",
-                          noB: "Disagree",
-                          value: value,
-                        );
-                      },
-                    );
-                  } else {
-                    settingsProvider.toggleNotifications(value, context);
-                    settingsProvider.settingsPrefs.saveNotificationUpdate();
-                  }
-                },
-              ),
+              // _buildSwitchTile(
+              //   'Enable Notifications',
+              //   Icons.notifications,
+              //   settingsProvider.settingsPrefs.isNotiON,
+              //   // (value) => settingsProvider.toggleNotifications(value),
+              //   (value) {
+              //     print("the button");
+              //     if (!value) {
+              //       showDialog(
+              //         context: context,
+              //         builder: (context) {
+              //           return _showDialog(
+              //             title: "Warning",
+              //             text: "All the app notifications will be canceled",
+              //             function: (value) {
+              //               print("object");
+              //               settingsProvider.toggleNotifications(
+              //                 value,
+              //                 context,
+              //               );
+              //               settingsProvider.settingsPrefs
+              //                   .saveNotificationUpdate();
+              //               Navigator.pop(context);
+              //               // setState(() {});
+              //             },
+              //             context: context,
+              //             yesB: "Agree",
+              //             noB: "Disagree",
+              //             value: value,
+              //           );
+              //         },
+              //       );
+              //     } else {
+              //       settingsProvider.toggleNotifications(value, context);
+              //       settingsProvider.settingsPrefs.saveNotificationUpdate();
+              //     }
+              //   },
+              // ),
               _buildSwitchTile(
                 'Dark Mode',
                 Icons.dark_mode,
@@ -79,22 +79,15 @@ class _SettingsPageState extends State<SettingsPage> {
             ]),
             // const SizedBox(height: 16),
             _buildSettingsCard('Support & Information', [
-              _buildActionTile(
-                'Rate Us on App Store',
-                Icons.star,
-                () => MySnackbar().showSnackBar(
+              _buildActionTile('Rate Us on App Store', Icons.star, () {
+                MySnackbar().showSnackBar(
                   'Taking you to the App Store!',
                   context,
-                ),
-              ),
-              _buildActionTile(
-                'Contact Support',
-                Icons.support_agent,
-                () => MySnackbar().showSnackBar(
-                  'Opening email client...',
-                  context,
-                ),
-              ),
+                );
+              }),
+              _buildActionTile('Contact Support', Icons.support_agent, () {
+                MySnackbar().showSnackBar('Opening email client...', context);
+              }),
               _buildInfoTile('App Version', '1.0.0', Icons.info),
             ]),
 
@@ -121,13 +114,13 @@ class _SettingsPageState extends State<SettingsPage> {
               }),
             ]),
             // const SizedBox(height: 24),
-            const AboutListTile(
-              icon: Icon(Icons.favorite, color: AppColors.primary),
-              applicationName: 'Smart Health Reminder',
-              applicationVersion: '1.0.0',
-              applicationLegalese: '© 2025 Health App Team',
-              aboutBoxChildren: [Text('Your health, our priority.')],
-            ),
+            // const AboutListTile(
+            //   icon: Icon(Icons.favorite, color: AppColors.primary),
+            //   applicationName: 'Smart Health Reminder',
+            //   applicationVersion: '1.0.0',
+            //   applicationLegalese: '© 2025 Health App Team',
+            //   aboutBoxChildren: [Text('Your health, our priority.')],
+            // ),
           ],
         ),
       ),

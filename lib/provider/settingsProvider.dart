@@ -14,7 +14,7 @@ class SettingsProvider extends ChangeNotifier {
   }
 
   Future<void> clearAllAppData() async {
-    print("deleting all data");
+    print("Deleting all app data");
     try {
       SharedPreferences prefs = await SharedPreferences.getInstance();
       Sharedprefservices().reminderList.clear();
@@ -29,15 +29,16 @@ class SettingsProvider extends ChangeNotifier {
 
   Future<void> toggleNotifications(bool value, BuildContext context) async {
     try {
-      print("toggle notification");
+      print("Toggling notifications: $value");
       settingsPrefs.isNotiON = value;
       await settingsPrefs.saveNotificationUpdate();
 
       if (!value) {
+        // Disable all notifications
         await NotiServices().notificationPlugin.cancelAll();
-        print("value: $value");
-        await settingsPrefs.saveNotificationUpdate();
+        print("Notifications disabled");
       } else {
+        // Re-enable notifications by scheduling all active reminders
         final reminders = Sharedprefservices().reminderList;
         for (final reminder in reminders) {
           if (reminder.isActive ?? true) {
@@ -52,9 +53,10 @@ class SettingsProvider extends ChangeNotifier {
             );
           }
         }
+        print("Notifications enabled and reminders rescheduled");
       }
     } catch (e) {
-      print(e.toString());
+      print("Error in toggleNotifications: $e");
     }
 
     notifyListeners();

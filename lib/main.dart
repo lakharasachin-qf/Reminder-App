@@ -3,7 +3,6 @@ import 'package:demo_health/views/main_screens/HomeScreen.dart';
 import 'package:demo_health/views/splash_screen/SplashScreen.dart';
 import 'package:demo_health/Theme/AppTheme.dart';
 import 'package:demo_health/Theme/ThemeProvider.dart';
-import 'package:demo_health/notiServices/noti_Services.dart';
 import 'package:demo_health/provider/reminderPRO.dart';
 import 'package:demo_health/provider/settingsProvider.dart';
 import 'package:demo_health/provider/toDoPro.dart';
@@ -12,7 +11,6 @@ import 'package:provider/provider.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await NotiServices().initNotifications();
   runApp(
     MultiProvider(
       providers: [

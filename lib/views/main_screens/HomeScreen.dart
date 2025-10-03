@@ -1,3 +1,4 @@
+import 'package:demo_health/notiServices/noti_Services.dart';
 import 'package:demo_health/views/main_screens/calender_screen/CalenderScreenTodo.dart';
 import 'package:demo_health/views/main_screens/reminder_screen/RemindersList.dart';
 import 'package:demo_health/views/main_screens/settings_screen/SettingsPage.dart';
@@ -21,6 +22,16 @@ class _HomeScreenState extends State<HomeScreen> {
     setState(() {
       _selectedIndex = index;
     });
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    initNotifications();
+  }
+
+  void initNotifications() async {
+    await NotiServices().initNotifications();
   }
 
   @override

@@ -14,3 +14,19 @@ class MySnackbar {
     );
   }
 }
+
+Future<void> _launchInBrowser(String url) async {
+  if (await UrlLauncherPlatform.instance.canLaunch(url)) {
+    await UrlLauncherPlatform.instance.launch(
+      url,
+      useSafariVC: false,
+      useWebView: false,
+      enableJavaScript: false,
+      enableDomStorage: false,
+      universalLinksOnly: false,
+      headers: <String, String>{},
+    );
+  } else {
+    throw Exception('Could not launch $url');
+  }
+}
