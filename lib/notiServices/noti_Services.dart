@@ -147,8 +147,8 @@ class NotiServices {
             color: color1,
             colorized: true,
             fullScreenIntent: true,
-            icon: '@mipmap/ic_launcher',
-            largeIcon: DrawableResourceAndroidBitmap('@mipmap/ic_launcher'),
+            icon: '@mipmap/ic_launcher',//notification
+            largeIcon: DrawableResourceAndroidBitmap('@mipmap/ic_launcher'),//notification
           );
 
       final NotificationDetails notiDetails = NotificationDetails(

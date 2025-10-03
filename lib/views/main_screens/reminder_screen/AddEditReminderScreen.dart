@@ -488,20 +488,38 @@ class _AddEditReminderScreenState extends State<AddEditReminderScreen> {
           title: Text(
             widget.isEdit ? 'Reminder Edited' : 'Reminder Saved!',
             style: TextStyle(fontSize: 18.sp),
+            textAlign: TextAlign.center, // ✅ Center title
           ),
           content: Text(
             'Your reminder "${_titleController.text}" is now set.',
             style: TextStyle(fontSize: 16.sp),
+            textAlign: TextAlign.center, // ✅ Center content
           ),
+          actionsAlignment: MainAxisAlignment.center, // ✅ Center buttons
           actions: [
-            TextButton(
+            MaterialButton(
               onPressed: () {
                 Navigator.of(context).pop();
                 Navigator.of(context).pop(true);
                 FocusScope.of(context).unfocus();
               },
-              child: Text('OK', style: TextStyle(fontSize: 16.sp)),
+              color: AppColors.primary,
+              height: 5.h,
+              minWidth: Device.width,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(3.w),
+              ),
+              textColor: AppColors.background,
+              child: Text("OK", style: TextStyle(fontSize: 16.sp)),
             ),
+            // TextButton(
+            //   onPressed: () {
+            //     Navigator.of(context).pop();
+            //     Navigator.of(context).pop(true);
+            //     FocusScope.of(context).unfocus();
+            //   },
+            //   child: Text('OK', style: TextStyle(fontSize: 16.sp)),
+            // ),
           ],
         ),
       );
