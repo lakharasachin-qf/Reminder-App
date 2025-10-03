@@ -1,4 +1,4 @@
-package com.app.smartreminder
+package com.next119.smartreminder
 
 import io.flutter.embedding.android.FlutterActivity
 
