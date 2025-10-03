@@ -24,6 +24,7 @@ class _AddEditReminderScreenState extends State<AddEditReminderScreen> {
   final TextEditingController _titleController = TextEditingController();
   final ScrollController _scrollController = ScrollController();
   final FocusNode _focusNode = FocusNode();
+
   TimeOfDay _selectedTime = TimeOfDay.now();
   String _selectedFrequency = 'Daily';
   IconData _selectedIcon = Icons.medication;
@@ -47,8 +48,8 @@ class _AddEditReminderScreenState extends State<AddEditReminderScreen> {
     AppColors.warning,
     AppColors.error,
     AppColors.success,
-    Colors.purple.shade300,
-    Colors.teal.shade300,
+    Colors.purple,
+    Colors.teal,
   ];
 
   @override
@@ -59,10 +60,9 @@ class _AddEditReminderScreenState extends State<AddEditReminderScreen> {
       _selectedFrequency = widget.reminder!.frequency;
       _selectedTime = widget.reminder!.time ?? TimeOfDay.now();
       _selectedColor = widget.reminder!.color;
-      _selectedIcon = widget.reminder!.icon;
+      _selectedIcon = widget.reminder!.icon; // from model getter
     }
     _sharedprefservices.getReminder();
-    setState(() {});
   }
 
   @override
@@ -75,6 +75,19 @@ class _AddEditReminderScreenState extends State<AddEditReminderScreen> {
 
   void unFocus() {
     FocusScope.of(context).unfocus(disposition: UnfocusDisposition.scope);
+  }
+
+  // 🔑 Convert IconData -> String name for saving
+  String iconToName(IconData icon) {
+    if (icon == Icons.medication) return 'medication';
+    if (icon == Icons.fitness_center) return 'fitness_center';
+    if (icon == Icons.water_drop) return 'water_drop';
+    if (icon == Icons.wb_sunny) return 'wb_sunny';
+    if (icon == Icons.restaurant) return 'restaurant';
+    if (icon == Icons.bed) return 'bed';
+    if (icon == Icons.favorite) return 'favorite';
+    if (icon == Icons.local_hospital) return 'local_hospital';
+    return 'notifications';
   }
 
   @override
@@ -419,7 +432,7 @@ class _AddEditReminderScreenState extends State<AddEditReminderScreen> {
           title: _titleController.text,
           time: _selectedTime,
           frequency: _selectedFrequency,
-          icon: _selectedIcon,
+          iconName: iconToName(_selectedIcon), // ✅ FIX
           color: _selectedColor,
           isActive: widget.reminder!.isActive,
         );
@@ -427,16 +440,14 @@ class _AddEditReminderScreenState extends State<AddEditReminderScreen> {
           context,
           listen: false,
         ).updateReminder(updateReminder);
-        if (_selectedTime != null) {
-          await NotiServices().reminderNoti(
-            id: updateReminder.id,
-            title: updateReminder.title,
-            body: '${_selectedTime.format(context)} • $_selectedFrequency',
-            frequency: _selectedFrequency,
-            time: _selectedTime,
-            color1: _selectedColor,
-          );
-        }
+        await NotiServices().reminderNoti(
+          id: updateReminder.id,
+          title: updateReminder.title,
+          body: '${_selectedTime.format(context)} • $_selectedFrequency',
+          frequency: _selectedFrequency,
+          time: _selectedTime,
+          color1: _selectedColor,
+        );
       } else {
         final int reminderId = generateUniqueReminderId(
           _sharedprefservices.reminderList,
@@ -448,26 +459,25 @@ class _AddEditReminderScreenState extends State<AddEditReminderScreen> {
               title: _titleController.text,
               time: _selectedTime,
               frequency: _selectedFrequency,
-              icon: _selectedIcon,
+              iconName: iconToName(_selectedIcon), // ✅ FIX
               color: _selectedColor,
               isActive: true,
             ),
           );
-          if (_selectedTime != null) {
-            await NotiServices().reminderNoti(
-              id: reminderId,
-              title: _titleController.text,
-              body: '${_selectedTime.format(context)} • $_selectedFrequency',
-              frequency: _selectedFrequency,
-              time: _selectedTime,
-              color1: _selectedColor,
-            );
-          }
+          await NotiServices().reminderNoti(
+            id: reminderId,
+            title: _titleController.text,
+            body: '${_selectedTime.format(context)} • $_selectedFrequency',
+            frequency: _selectedFrequency,
+            time: _selectedTime,
+            color1: _selectedColor,
+          );
         } catch (e) {
-          print(e.toString());
+          debugPrint(e.toString());
         }
       }
       _sharedprefservices.saveReminder();
+
       showDialog(
         context: context,
         builder: (context) => AlertDialog(

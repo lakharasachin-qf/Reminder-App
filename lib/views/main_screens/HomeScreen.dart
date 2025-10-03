@@ -28,12 +28,12 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   void initState() {
     super.initState();
-    initNotifications();
+    // initNotifications();
   }
 
-  void initNotifications() async {
-    await NotiServices().initNotifications();
-  }
+  // void initNotifications() async {
+  //   await NotiServices().initNotifications();
+  // }
 
   @override
   Widget build(BuildContext context) {

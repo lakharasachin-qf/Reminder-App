@@ -6,7 +6,7 @@ class HealthReminder {
   final String title;
   final TimeOfDay? time;
   final String frequency;
-  final IconData icon;
+  final String iconName; // store icon name instead of IconData
   final Color color;
   bool? isActive = true;
 
@@ -15,35 +15,43 @@ class HealthReminder {
     required this.title,
     required this.time,
     required this.frequency,
-    required this.icon,
+    required this.iconName,
     required this.color,
     this.isActive,
   });
+
+  // Convert string -> IconData (const)
+  IconData get icon {
+    switch (iconName) {
+      case 'alarm':
+        return Icons.alarm;
+      case 'medication':
+        return Icons.medication;
+      case 'health':
+        return Icons.health_and_safety;
+      default:
+        return Icons.notifications;
+    }
+  }
 
   int? _timeToMinutes(TimeOfDay? time) {
     if (time == null) return null;
     return time.hour * 60 + time.minute;
   }
 
-  // TimeOfDay? _minutesToTime(int? minutes) {
-  //   if (minutes == null) return null;
-  //   return TimeOfDay(hour: minutes ~/ 60, minute: minutes % 60);
-  // }
-
   Map<String, dynamic> toJson() => {
     'id': id,
     'title': title,
     'time': _timeToMinutes(time),
     'frequency': frequency,
-    'icon': icon.codePoint,
+    'iconName': iconName,
     'color': color.value,
     'isActive': isActive,
   };
 
   factory HealthReminder.fromJson(Map<String, dynamic> json) => HealthReminder(
     id: (json['id'] is int)
-        ? (json['id'] as int) &
-              0x7FFFFFFF // force into 32-bit positive int
+        ? (json['id'] as int) & 0x7FFFFFFF
         : Random().nextInt(0x7FFFFFFF),
     title: json['title'] ?? '',
     time: json['time'] != null
@@ -53,10 +61,7 @@ class HealthReminder {
           )
         : null,
     frequency: json['frequency'] ?? 'Daily',
-    icon: IconData(
-      json['icon'] ?? Icons.medication.codePoint,
-      fontFamily: 'MaterialIcons',
-    ),
+    iconName: json['iconName'] ?? 'medication',
     color: Color(json['color'] ?? Colors.blue.value),
     isActive: json['isActive'] ?? true,
   );
