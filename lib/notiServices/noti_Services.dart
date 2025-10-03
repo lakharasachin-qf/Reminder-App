@@ -9,19 +9,34 @@ class NotiServices {
   factory NotiServices() => _instance;
   NotiServices._internal();
 
-  FlutterLocalNotificationsPlugin notificationPlugin =
+  final FlutterLocalNotificationsPlugin notificationPlugin =
       FlutterLocalNotificationsPlugin();
 
-  // static final Sharedprefservices _instance = Sharedprefservices._internal();
-  // factory Sharedprefservices() => _instance;
-  // Sharedprefservices._internal();
   Future<void> initNotifications() async {
     print("initNotifications called");
     try {
       tz.initializeTimeZones();
 
-      final String currentTimezone = await FlutterTimezone.getLocalTimezone();
-      tz.setLocalLocation(tz.getLocation(currentTimezone));
+      // Get the timezone identifier as a String from TimezoneInfo
+      final TimezoneInfo timezoneInfo =
+          await FlutterTimezone.getLocalTimezone();
+      String currentTimezone = timezoneInfo.identifier;
+
+      // Map deprecated timezone names to valid ones
+      if (currentTimezone == 'Asia/Calcutta') {
+        currentTimezone = 'Asia/Kolkata';
+      }
+
+      // Verify if the timezone is valid
+      try {
+        tz.setLocalLocation(tz.getLocation(currentTimezone));
+      } catch (e) {
+        print(
+          "Invalid timezone: $currentTimezone. Falling back to Asia/Kolkata",
+        );
+        currentTimezone = 'Asia/Kolkata';
+        tz.setLocalLocation(tz.getLocation(currentTimezone));
+      }
 
       const AndroidSettings = AndroidInitializationSettings(
         '@mipmap/ic_launcher',
@@ -43,7 +58,7 @@ class NotiServices {
           >()
           ?.requestPermissions(alert: true, badge: true, sound: true);
 
-      print("notification initialized");
+      print("Notification initialized");
     } catch (e) {
       print("Error in initNotifications: $e");
     }
@@ -51,11 +66,10 @@ class NotiServices {
 
   Future<void> instantNotification({
     required String title,
-    required id,
-    required body,
+    required int id,
+    required String body,
   }) async {
     try {
-      print("noti sent");
       await notificationPlugin.show(
         id,
         title,
@@ -63,8 +77,8 @@ class NotiServices {
         NotificationDetails(
           android: AndroidNotificationDetails(
             'noti_first',
-            'instant noti',
-            channelDescription: 'instant notification channel',
+            'Instant Notification',
+            channelDescription: 'Instant notification channel',
             importance: Importance.max,
             priority: Priority.max,
             enableVibration: true,
@@ -72,11 +86,12 @@ class NotiServices {
             fullScreenIntent: true,
             playSound: true,
             autoCancel: true,
-          ), //887777
+          ),
         ),
       );
+      print("Instant notification sent");
     } catch (e) {
-      print(e.toString());
+      print("Error in instantNotification: $e");
     }
   }
 
@@ -86,11 +101,26 @@ class NotiServices {
     required String body,
     required Color color1,
     required String frequency,
-    required TimeOfDay time, // Make sure this is TimeOfDay
+    required TimeOfDay time,
   }) async {
-    print("noti called (reminderNoti)");
+    print("Scheduling reminder notification");
     try {
-      print("Snoti init");
+      // Check if exact alarm permission is granted (Android 12+)
+      final androidPlugin = notificationPlugin
+          .resolvePlatformSpecificImplementation<
+            AndroidFlutterLocalNotificationsPlugin
+          >();
+      bool canScheduleExact = true;
+
+      if (androidPlugin != null) {
+        final bool? granted = await androidPlugin
+            .requestExactAlarmsPermission();
+        if (granted != true) {
+          print("Exact alarm permission denied, using inexact scheduling");
+          canScheduleExact = false;
+        }
+      }
+
       final now = tz.TZDateTime.now(tz.local);
       var scheduledDate = tz.TZDateTime(
         tz.local,
@@ -105,27 +135,25 @@ class NotiServices {
         scheduledDate = scheduledDate.add(const Duration(days: 1));
       }
 
-      // ignore: non_constant_identifier_names
-      final AndroidDetails = AndroidNotificationDetails(
-        'channelId',
-        'channel Name',
-        priority: Priority.high,
-        importance: Importance.max,
-        playSound: true,
-        enableLights: true,
-        enableVibration: true,
-        color: color1,
-        colorized: true,
-        fullScreenIntent: true,
-        icon: '@mipmap/ic_notification',
-        largeIcon: DrawableResourceAndroidBitmap('@mipmap/ic_notification'),
-        // styleInformation: const BigPictureStyleInformation(
-        //   FilePathAndroidBitmap(''), // Provide a valid file path here
-        //   largeIcon: FilePathAndroidBitmap(''),
-        // ),
-      );
+      final AndroidNotificationDetails androidDetails =
+          AndroidNotificationDetails(
+            'channelId',
+            'Channel Name',
+            priority: Priority.high,
+            importance: Importance.max,
+            playSound: true,
+            enableLights: true,
+            enableVibration: true,
+            color: color1,
+            colorized: true,
+            fullScreenIntent: true,
+            icon: '@mipmap/ic_notification',
+            largeIcon: DrawableResourceAndroidBitmap('@mipmap/ic_notification'),
+          );
 
-      final notiDetails = NotificationDetails(android: AndroidDetails);
+      final NotificationDetails notiDetails = NotificationDetails(
+        android: androidDetails,
+      );
 
       await notificationPlugin.zonedSchedule(
         id,
@@ -133,8 +161,9 @@ class NotiServices {
         body,
         scheduledDate,
         notiDetails,
-        androidScheduleMode: AndroidScheduleMode.exactAllowWhileIdle,
-        // matchDateTimeComponents: DateTimeComponents.time,
+        androidScheduleMode: canScheduleExact
+            ? AndroidScheduleMode.exactAllowWhileIdle
+            : AndroidScheduleMode.inexactAllowWhileIdle,
         matchDateTimeComponents: frequency == 'Daily'
             ? DateTimeComponents.time
             : frequency == 'Weekly'
@@ -143,9 +172,11 @@ class NotiServices {
             ? DateTimeComponents.dayOfMonthAndTime
             : null,
       );
-      print('Snoti sent');
+
+      print('Reminder notification scheduled successfully');
     } catch (e) {
-      print(e.toString());
+      print("Error in reminderNoti: $e");
+      rethrow; // Rethrow to allow caller to handle the error
     }
   }
 }
